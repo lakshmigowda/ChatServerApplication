@@ -1,4 +1,5 @@
 package com.chatapp.entity;
+
 // default package
 // Generated Jul 5, 2015 7:10:39 PM by Hibernate Tools 3.4.0.CR1
 
@@ -49,7 +50,7 @@ public class Message implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cid", nullable = false)
 	public Chatroom getChatroom() {
 		return this.chatroom;
@@ -59,7 +60,7 @@ public class Message implements java.io.Serializable {
 		this.chatroom = chatroom;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "uid", nullable = false)
 	public User getUser() {
 		return this.user;

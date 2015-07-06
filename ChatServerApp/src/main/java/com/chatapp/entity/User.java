@@ -62,7 +62,7 @@ public class User implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	public Set<Message> getMessages() {
 		return this.messages;
 	}
@@ -71,7 +71,7 @@ public class User implements java.io.Serializable {
 		this.messages = messages;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "userchatroom", catalog = "chatapp", joinColumns = { @JoinColumn(name = "ufid", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "cfid", nullable = false, updatable = false) })
 	public Set<Chatroom> getChatrooms() {
 		return this.chatrooms;
