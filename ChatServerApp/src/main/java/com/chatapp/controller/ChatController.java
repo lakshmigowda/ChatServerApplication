@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -65,14 +64,13 @@ class transferfile extends Thread {
 
 				System.out.println("Waiting for Command ...");
 
-				dout.writeUTF("Welcome to the Chat Server!");
-				dout.writeUTF("Loging Name?");
+				dout.writeUTF("Welcome to the Chat Server!" + "\n"
+						+ "Loging Name?");
 				String command = din.readUTF();
 
 				// get username
 				while (ChatManager.isUserExists(command)) {
-					dout.writeUTF("Sorry, name taken.");
-					dout.writeUTF("Loging Name?");
+					dout.writeUTF("Sorry, name taken." + "\n" + "Loging Name?");
 					command = din.readUTF();
 				}
 
@@ -88,12 +86,14 @@ class transferfile extends Thread {
 						dout.writeUTF("Active rooms are:");
 						List<Chatroom> rooms = ChatManager.getAllChatrooms();
 						Iterator<Chatroom> roomsIterator = rooms.iterator();
+						StringBuffer roomsBuffer = new StringBuffer();
 						while (roomsIterator.hasNext()) {
 							Chatroom tempRoom = roomsIterator.next();
-							dout.writeUTF("* " + tempRoom.getName() + " ("
-									+ tempRoom.getUsers().size() + ")");
+							roomsBuffer.append("* " + tempRoom.getName() + " ("
+									+ tempRoom.getUsers().size() + ")" + "\n");
 						}
-						dout.writeUTF("end of list.");
+						roomsBuffer.append("end of list.");
+						dout.writeUTF(roomsBuffer.toString());
 						command = din.readUTF();
 					}
 
@@ -103,11 +103,14 @@ class transferfile extends Thread {
 						Set<User> users = ChatManager
 								.getUserListForChatroom(roomName);
 						Iterator<User> usersIterator = users.iterator();
+						StringBuffer usersBuffer = new StringBuffer();
 						while (usersIterator.hasNext()) {
 							User tempUser = usersIterator.next();
-							dout.writeUTF("* " + tempUser.getName());
+							usersBuffer
+									.append("* " + tempUser.getName() + "\n");
 						}
-						dout.writeUTF("end of list.");
+						usersBuffer.append("end of list.");
+						dout.writeUTF(usersBuffer.toString());
 
 						ChatManager.addChatroomMessage(
 								"* new user joined chat: " + userName,
@@ -116,14 +119,16 @@ class transferfile extends Thread {
 						Set<Message> messages = chatroom.getMessages();
 						Iterator<Message> chatroomMessagesIterator = messages
 								.iterator();
+						StringBuffer messagesBuffer = new StringBuffer();
 						while (chatroomMessagesIterator.hasNext()) {
 							Message message = chatroomMessagesIterator.next();
 							if (message.getUser().getName().equals(userName)) {
-								dout.writeUTF(message.getText());
+								messagesBuffer.append(message.getText() + "\n");
 							}
-							dout.writeUTF(message.getUser() + " : "
+							messagesBuffer.append(message.getUser() + " : "
 									+ message.getText());
 						}
+						dout.writeUTF(usersBuffer.toString());
 						count = messages.size();
 
 						command = din.readUTF();
@@ -134,6 +139,7 @@ class transferfile extends Thread {
 							chatroom = ChatManager.getChatroom(roomName);
 							messages = chatroom.getMessages();
 							chatroomMessagesIterator = messages.iterator();
+							messagesBuffer = new StringBuffer();
 							int tempCount = 0;
 							while (chatroomMessagesIterator.hasNext()) {
 								if (tempCount > count) {
@@ -141,14 +147,16 @@ class transferfile extends Thread {
 											.next();
 									if (message.getUser().getName()
 											.equals(userName)) {
-										dout.writeUTF(message.getText());
+										messagesBuffer.append(message.getText()
+												+ "\n");
 									}
-									dout.writeUTF(message.getUser() + " : "
-											+ message.getText());
+									messagesBuffer.append(message.getUser()
+											+ " : " + message.getText() + "\n");
 								} else {
 									tempCount++;
 								}
 							}
+							dout.writeUTF(usersBuffer.toString());
 							count = messages.size();
 							command = din.readUTF();
 						}
@@ -158,6 +166,7 @@ class transferfile extends Thread {
 						chatroom = ChatManager.getChatroom(roomName);
 						messages = chatroom.getMessages();
 						chatroomMessagesIterator = messages.iterator();
+						messagesBuffer = new StringBuffer();
 						int tempCount = 0;
 						while (chatroomMessagesIterator.hasNext()) {
 							if (tempCount > count) {
@@ -165,14 +174,16 @@ class transferfile extends Thread {
 										.next();
 								if (message.getUser().getName()
 										.equals(userName)) {
-									dout.writeUTF(message.getText());
+									messagesBuffer.append(message.getText()
+											+ "\n");
 								}
-								dout.writeUTF(message.getUser() + " : "
-										+ message.getText());
+								messagesBuffer.append(message.getUser() + " : "
+										+ message.getText() + "\n");
 							} else {
 								tempCount++;
 							}
 						}
+						dout.writeUTF(usersBuffer.toString());
 						count = messages.size();
 						command = din.readUTF();
 					}
