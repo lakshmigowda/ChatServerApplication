@@ -241,4 +241,29 @@ public class ChatappDAO {
 		}
 		return messageId;
 	}
+
+	public User getUser(User user) {
+		User tempUser = null;
+		try {
+			factory = new Configuration().configure().buildSessionFactory();
+		} catch (Throwable ex) {
+			System.err.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			tempUser = (User) session.createQuery("FROM User WHERE name="
+					+ user.getName());
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return tempUser;
+	}
 }

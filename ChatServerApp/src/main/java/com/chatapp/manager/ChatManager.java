@@ -1,5 +1,6 @@
 package com.chatapp.manager;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -77,7 +78,23 @@ public class ChatManager {
 	public static Chatroom addChatroomMessage(String text, String userName,
 			String chatroomName) {
 		chatroomHome.addChatroomMessage(new Message(new Chatroom(chatroomName),
-				new User(userName), text));
+				getUser(userName), text));
 		return getChatroom(chatroomName);
+	}
+
+	public static User getUser(String userName) {
+		User user = chatroomHome.getUser(new User(userName));
+		return user;
+	}
+
+	public static boolean isUserExists(String name) {
+		List<User> users = getAllUsers();
+		Iterator<User> usersIterator = users.iterator();
+		while (usersIterator.hasNext()) {
+			if (usersIterator.next().getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
