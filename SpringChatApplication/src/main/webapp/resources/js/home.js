@@ -1,10 +1,36 @@
 $(document).ready(function() {
 	var self = $(this);
-	self.createUser();
-	self.sendMessage();
+	//self.createUser();
+	//self.sendMessage();
+	self.getUsers();
 });
 
 (function($) {
+
+	jQuery.fn.getUsers = function() {
+		$(".listname")
+				.click(
+						function() {
+							var chatroomName = ($(this).text()); // gets text contents of clicked li
+
+							/*$.get("/SpringChatApplication/getChatroom?chatroomName"
+									+ chatroomName, function(data, status) {
+								alert(data);
+							});
+							*/
+
+							$
+									.ajax({
+										url : "/SpringChatApplication/getChatroom?chatroomName="
+												+ chatroomName,
+										type : "GET",
+										success : function(data, textStatus,
+												jqXHR) {
+											alert(data);
+										}
+									});
+						});
+	}
 
 	jQuery.fn.createUser = function() {
 

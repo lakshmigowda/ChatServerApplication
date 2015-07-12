@@ -6,7 +6,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Spring Chat Application</title>
+<link rel="stylesheet"
+	href="/SpringChatApplication/resources/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/SpringChatApplication/resources/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+	href="/SpringChatApplication/resources/css/chat.css">
+<script src="/SpringChatApplication/resources/js/jquery-2.1.4.js">
+	
+</script>
+<script src="/SpringChatApplication/resources/js/bootstrap.min.js">
+	
+</script>
+<script src="/SpringChatApplication/resources/js/home.js">
+	
+</script>
 </head>
 <body>
 	<table id="chatTable" border="1" class="table table-striped">
@@ -21,7 +36,7 @@
 			<td><div id="listchatrooms">
 					<ul>
 						<c:forEach var="elem" items="${rooms}">
-							<li><c:out value="${elem.name}" /></li>
+							<li class="listname"><c:out value="${elem.name}" /></li>
 						</c:forEach>
 					</ul>
 				</div></td>

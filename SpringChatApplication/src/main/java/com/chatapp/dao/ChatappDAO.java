@@ -82,8 +82,9 @@ public class ChatappDAO {
 		return users;
 	}
 
+	@SuppressWarnings({ "unchecked", "unused", "deprecation" })
 	public Chatroom getChatroom(Chatroom room) {
-		Chatroom chatroom = null;
+		List<Chatroom> chatrooms = null;
 		try {
 			factory = new Configuration().configure().buildSessionFactory();
 		} catch (Throwable ex) {
@@ -93,10 +94,8 @@ public class ChatappDAO {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
-			tx = session.beginTransaction();
-			chatroom = (Chatroom) session
-					.createQuery("FROM Chatroom WHERE name=" + room.getName());
-			tx.commit();
+			chatrooms = session.createQuery(
+					"FROM Chatroom C WHERE C.name = 'Chat'").list();
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();
@@ -104,7 +103,7 @@ public class ChatappDAO {
 		} finally {
 			session.close();
 		}
-		return chatroom;
+		return chatrooms.get(0);
 	}
 
 	public Integer addUser(User userAdd) {

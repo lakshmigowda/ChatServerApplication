@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chatapp.entity.Chatroom;
@@ -22,14 +24,14 @@ public class ChatAppController {
 		return model;
 	}
 
-	@RequestMapping(value = "/getChatroom")
-	public Chatroom handleGetChatroom(@ModelAttribute String chatroomName) {
+	@RequestMapping(method = RequestMethod.GET, value = "/getChatroom")
+	public Chatroom handleGetChatroom(@RequestParam String chatroomName) {
 		Chatroom chatroom = ChatManager.getChatroom(chatroomName);
 		return chatroom;
 	}
 
-	@RequestMapping(value = "/createUser")
-	public String handleCreateUser(@ModelAttribute String userName) {
+	@RequestMapping(method = RequestMethod.GET, value = "/createUser")
+	public String handleCreateUser(@RequestParam String userName) {
 		Boolean result = ChatManager.isUserExists(userName);
 		if (result) {
 			return "error";
