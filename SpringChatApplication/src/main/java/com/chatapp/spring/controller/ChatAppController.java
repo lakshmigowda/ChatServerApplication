@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chatapp.entity.Chatroom;
@@ -25,7 +26,8 @@ public class ChatAppController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/getChatroom")
-	public Chatroom handleGetChatroom(@RequestParam String chatroomName) {
+	public @ResponseBody Chatroom handleGetChatroom(
+			@RequestParam String chatroomName) {
 		Chatroom chatroom = ChatManager.getChatroom(chatroomName);
 		return chatroom;
 	}
