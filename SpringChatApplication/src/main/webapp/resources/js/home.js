@@ -13,12 +13,6 @@ $(document).ready(function() {
 						function() {
 							var chatroomName = ($(this).text()); // gets text contents of clicked li
 
-							/*$.get("/SpringChatApplication/getChatroom?chatroomName"
-									+ chatroomName, function(data, status) {
-								alert(data);
-							});
-							*/
-
 							$
 									.ajax({
 										url : "/SpringChatApplication/getChatroom?chatroomName="
@@ -26,7 +20,7 @@ $(document).ready(function() {
 										type : "GET",
 										success : function(data, textStatus,
 												jqXHR) {
-											alert(data);
+											alert(data.name);
 										}
 									});
 						});
