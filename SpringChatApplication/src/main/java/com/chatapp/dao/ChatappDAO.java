@@ -95,7 +95,8 @@ public class ChatappDAO {
 		Transaction tx = null;
 		try {
 			chatrooms = session.createQuery(
-					"FROM Chatroom C WHERE C.name = 'Chat'").list();
+					"FROM Chatroom C WHERE C.name = '" + room.getName() + "'")
+					.list();
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();

@@ -20,7 +20,26 @@ $(document).ready(function() {
 										type : "GET",
 										success : function(data, textStatus,
 												jqXHR) {
-											alert(data.name);
+											var length = data.users.length;
+											var html = "";
+											for (var i = 0; i < length; i++) {
+												html += "<p>"
+														+ data.users[i].name
+														+ "</p>"
+											}
+											$("#listusersforchatroom").html(
+
+											html);
+											var messagesLength = data.messages.length;
+											var messagesHtml = "";
+											for (var j = 0; j < messagesLength; j++) {
+
+												messagesHtml += "<p>"
+														+ data.messages[j].text
+														+ "</p>"
+											}
+											$("#content").html(messagesHtml);
+
 										}
 									});
 						});
