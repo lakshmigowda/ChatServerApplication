@@ -48,10 +48,9 @@
 		<tr>
 			<td><div id="listusersforchatroom"></div></td>
 			<td colspan="2"><textarea class="form-control" rows="3"
-					cols="50" id="text" placeholder="Type your message here."
-					onkeypress="return handleKeyPress(event)"></textarea></td>
+					cols="50" id="text" placeholder="Type your message here."></textarea></td>
 			<td><input type="button" class="btn btn-info btn-lg" id="send"
-				value="Send" onclick="handleSend()"></input></td>
+				value="Send"></input></td>
 		</tr>
 	</table>
 </body>

@@ -33,7 +33,7 @@ public class ChatAppController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/createUser")
-	public String handleCreateUser(@RequestParam String userName) {
+	public @ResponseBody String handleCreateUser(@RequestParam String userName) {
 		Boolean result = ChatManager.isUserExists(userName);
 		if (result) {
 			return "error";
@@ -44,8 +44,8 @@ public class ChatAppController {
 	}
 
 	@RequestMapping(value = "/createMessage")
-	public Chatroom handleCreateMessage(@ModelAttribute String message,
-			String userName, String chatroomName) {
+	public Chatroom handleCreateMessage(@RequestParam String message,
+			@RequestParam String userName, @RequestParam String chatroomName) {
 		Chatroom chatroom = ChatManager.addChatroomMessage(message, userName,
 				chatroomName);
 		return chatroom;

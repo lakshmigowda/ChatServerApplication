@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var self = $(this);
-	//self.createUser();
-	//self.sendMessage();
+	self.createUser();
+	self.sendMessage();
 	self.getUsers();
 });
 
@@ -40,32 +40,51 @@ $(document).ready(function() {
 											}
 											$("#content").html(messagesHtml);
 
+											document.cookie = "chatRoom="
+													+ chatroomName;
 										}
 									});
 						});
 	}
 
 	jQuery.fn.createUser = function() {
-
+		var self = $(this);
 		var userName = prompt('Please enter your username.');
-		$.get("/SpringChatApplication/creatUser", function(data, status) {
-			$('#result').html(data);
-		});
+		$.get("/SpringChatApplication/createUser?userName=" + userName,
+				function(data, status) {
+					//$('#result').html(data);
+					if (data === "success") {
+						document.cookie = "username=" + userName;
+					} else {
+						self.createUser();
+					}
+				});
 	}
 
 	jQuery.fn.sendMessage = function() {
 
-		$.ajax({
-			url : "/SpringChatApplication/geteditlist",
-			type : "GET",
-			success : function(data, textStatus, jqXHR) {
-				$.get("/LBAPortal/getads", function(data, status) {
-					$('#result').html(data);
-				});
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				alert("couldn't submit the data!")
+		$("#send").click(function() {
+			var text = $('#text').val();
+
+			var cookies = document.cookie.split(";");
+			var userName = '';
+			var chatroom = '';
+			for (var i = 0; i < cookies.length; i++) {
+				var cookieName = cookies[i].split("=")[0].trim();
+				if (cookieName === 'username') {
+					userName = cookies[i].split("=")[1];
+				} else if (cookieName === 'chatRoom') {
+					chatroom = cookies[i].split("=")[1];
+				}
 			}
+
+			$.ajax({
+				url : "/SpringChatApplication/createMessage",
+				type : "GET",
+				success : function(data, textStatus, jqXHR) {
+
+				}
+			});
 		});
 	}
 
